@@ -1,0 +1,37 @@
+{
+  "name": "cia-serializer",
+  "version": "0.0.1",
+  "description": "JSON serializer which should be able to serialize anything you throw at it and stay under a defined length for the output",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava",
+    "dev": "ava -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/code-intelligence-agency/cia-serializer.git"
+  },
+  "keywords": [
+    "serialization",
+    "JSON"
+  ],
+  "ava": {
+    "files": [
+      "spec.js"
+    ]
+  },
+  "author": "capajj@gmail.com",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/code-intelligence-agency/cia-serializer/issues"
+  },
+  "homepage": "https://github.com/code-intelligence-agency/cia-serializer#readme",
+  "devDependencies": {
+    "ava": "^0.17.0",
+    "standard": "^8.6.0"
+  },
+  "dependencies": {
+    "json-stringify-safe": "^5.0.1",
+    "protochain": "^1.0.5"
+  }
+}
