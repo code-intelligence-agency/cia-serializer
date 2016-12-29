@@ -31,3 +31,12 @@ test('shortening', (t) => {
   const serializedMoreShortening = serializer.stringify(b, 130)
   t.is(serializedMoreShortening, '{"topa":"__na_Object__","topb":"__na_Object__"}')
 })
+
+test('works with undefined and null', t => {
+  const deserialized = serializer.parse(serializer.stringify({
+    undefined: undefined,
+    null: null
+  }))
+  t.is(deserialized.undefined, undefined)
+  t.is(deserialized.null, null)
+})

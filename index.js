@@ -55,6 +55,10 @@ function stringifyWithLimit (obj, maxLength) {
     if (typeof value === 'string') {
       countedLength += value.length
       addedLength = value.length
+    } else if (typeof value === 'undefined') {
+      const replacement = `__undefined__`
+      countedLength -= addedLength - replacement.length
+      return replacement
     } else {
       const stringifiedLength = stringify(value).length
       countedLength += stringifiedLength
@@ -73,12 +77,15 @@ module.exports = {
   stringify: stringifyWithLimit,
   parse (str) {
     let result = JSON.parse(str, (key, value) => {
-      if (typeof value === 'object' && value.__node_builtin__ && Object.keys(value).length === 1) {
+      if (toType(value) === 'Object' && value.__node_builtin__ && Object.keys(value).length === 1) {
         return builtinLibs[builtinLibNames.indexOf(value.__node_builtin__)]
+      }
+      if (value === '__undefined__') {
+        return undefined
       }
       return value
     })
-    if (typeof result === 'object' && result.__node_builtin__ && Object.keys(result).length === 1) {
+    if (toType(result) === 'Object' && result.__node_builtin__ && Object.keys(result).length === 1) {
       return builtinLibs[builtinLibNames.indexOf(result.__node_builtin__)]
     }
     return result

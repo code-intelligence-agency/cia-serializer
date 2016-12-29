@@ -1,6 +1,6 @@
 {
   "name": "cia-serializer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "JSON serializer which should be able to serialize anything you throw at it and stay under a defined length for the output",
   "main": "index.js",
   "scripts": {
