@@ -22,12 +22,12 @@ test('node builtins are serialized', (t) => {
 test('shortening', (t) => {
   const a = {a: 10, b: 409840984098, c: 'hello world'}
   const b = {topa: a, topb: a}
-  const serialized =  serializer.stringify(b, 199)
-  t.is(serialized, "{\"topa\":{\"a\":10,\"b\":409840984098,\"c\":\"hello world\"},\"topb\":\"__na_Object__\"}")
+  const serialized = serializer.stringify(b, 199)
+  t.is(serialized, '{"topa":{"a":10,"b":409840984098,"c":"hello world"},"topb":"__na_Object__"}')
 
-  const serializedNoShortening =  serializer.stringify(b, 299)
-  t.is(serializedNoShortening, "{\"topa\":{\"a\":10,\"b\":409840984098,\"c\":\"hello world\"},\"topb\":{\"a\":10,\"b\":409840984098,\"c\":\"hello world\"}}")
-  
-  const serializedMoreShortening =  serializer.stringify(b, 130)
-  t.is(serializedMoreShortening, "{\"topa\":\"__na_Object__\",\"topb\":\"__na_Object__\"}")
+  const serializedNoShortening = serializer.stringify(b, 299)
+  t.is(serializedNoShortening, '{"topa":{"a":10,"b":409840984098,"c":"hello world"},"topb":{"a":10,"b":409840984098,"c":"hello world"}}')
+
+  const serializedMoreShortening = serializer.stringify(b, 130)
+  t.is(serializedMoreShortening, '{"topa":"__na_Object__","topb":"__na_Object__"}')
 })

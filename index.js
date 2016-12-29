@@ -20,7 +20,7 @@ function flattenProtoProps (obj = {}) {
   }, {})
 }
 
-function checkBuiltIn (value){
+function checkBuiltIn (value) {
   if (builtinLibs.indexOf(value) !== -1) {
     return {
       __node_builtin__: builtinLibNames[builtinLibs.indexOf(value)]
@@ -28,45 +28,44 @@ function checkBuiltIn (value){
   }
 }
 
-const toType = function(obj) {
+const toType = function (obj) {
   return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1]
 }
 
 function stringifyWithLimit (obj, maxLength) {
+  let countedLength = 0
+  const builtInPossibly = checkBuiltIn(obj)
+  if (builtInPossibly) {
+    return stringify(builtInPossibly)
+  }
 
-    let countedLength = 0
-    const builtInPossibly = checkBuiltIn(obj)
-    if (builtInPossibly) {
-      return stringify(builtInPossibly)
+  return stringify(flattenProtoProps(obj), (key, value) => {
+    if (countedLength > maxLength) {
+      return `__na_${toType(value)}__`
     }
-
-    return stringify(flattenProtoProps(obj), (key, value) => {
-      if (countedLength > maxLength) {
-        return `__na_${toType(value)}__`
-      }
-      const builtInPossibly = checkBuiltIn(value)
-      if (builtInPossibly) {
-        return builtInPossibly
-      }
-      if (typeof value === 'function') {
-        return value.toString();
-      }
-      countedLength += key.length
-      let addedLength = 0
-      if (typeof value === 'string') {
-        countedLength += value.length
-        addedLength = value.length
-      } else {
-        const stringifiedLength = stringify(value).length
-        countedLength += stringifiedLength
-        addedLength = stringifiedLength
-      }
-      if (countedLength > maxLength) {
-        const replacement = `__na_${toType(value)}__`
-        countedLength -= addedLength - replacement.length
-        return replacement
-      }
-      return value
+    const builtInPossibly = checkBuiltIn(value)
+    if (builtInPossibly) {
+      return builtInPossibly
+    }
+    if (typeof value === 'function') {
+      return value.toString()
+    }
+    countedLength += key.length
+    let addedLength = 0
+    if (typeof value === 'string') {
+      countedLength += value.length
+      addedLength = value.length
+    } else {
+      const stringifiedLength = stringify(value).length
+      countedLength += stringifiedLength
+      addedLength = stringifiedLength
+    }
+    if (countedLength > maxLength) {
+      const replacement = `__na_${toType(value)}__`
+      countedLength -= addedLength - replacement.length
+      return replacement
+    }
+    return value
   })
 }
 
